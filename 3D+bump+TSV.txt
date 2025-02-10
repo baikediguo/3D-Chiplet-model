@@ -1,0 +1,68 @@
+import os
+from ansys.aedt.core import Icepak
+
+def initialize_icepak_project():
+    os.environ["ANSYSEM_ROOT242"] = r"D:\Program Files\AnsysEM\Ansys Student\v242\Win64"
+    app = Icepak(new_desktop=True)
+    print("Icepak application initialized successfully.")
+    
+    if not hasattr(app, 'odesign') or app.odesign is None:
+        raise AttributeError("Icepak design object (odesign) is not initialized.")
+    else:
+        print("Icepak design object (odesign) initialized successfully.")
+    
+    return app
+
+def create_3d_chiplet_geometry(app):
+    try:
+        # 创建一个较大的基底
+        substrate = app.modeler.create_box([0, -5, -1], [30, 20, 1], name="Substrate")
+        
+        # 创建四个3D Chiplet几何体，确保它们都在基板内部并排放置
+        chiplet1 = app.modeler.create_box([5, 5, 0], [5, 5, 1], name="Chiplet1")
+        chiplet2 = app.modeler.create_box([10, 5, 0], [5, 5, 1], name="Chiplet2")
+        chiplet3 = app.modeler.create_box([15, 5, 0], [5, 5, 1], name="Chiplet3")
+        chiplet4 = app.modeler.create_box([20, 5, 0], [5, 5, 1], name="Chiplet4")  # 调整位置至基板内部
+        
+        # 创建TSV结构，每个chiplet内部有4个TSV
+        tsv_positions = [
+            [6, 6, 0], [8, 6, 0], [6, 8, 0], [8, 8, 0],  # Chiplet1 TSVs
+            [11, 6, 0], [13, 6, 0], [11, 8, 0], [13, 8, 0],  # Chiplet2 TSVs
+            [16, 6, 0], [18, 6, 0], [16, 8, 0], [18, 8, 0],  # Chiplet3 TSVs
+            [21, 6, 0], [23, 6, 0], [21, 8, 0], [23, 8, 0]   # Chiplet4 TSVs
+        ]
+        
+        tsvs = []
+        for i, pos in enumerate(tsv_positions, start=1):
+            tsv = app.modeler.create_cylinder(origin=pos, orientation=[0, 0, 1], radius=0.25, height=1, name=f"TSV{i}")
+            tsvs.append(tsv)
+        
+        # 创建微凸点
+        microbumps = []
+        for i, chiplet in enumerate([chiplet1, chiplet2, chiplet3, chiplet4], start=1):
+            for j in range(1, 5):
+                x = 5 + 5 * (j - 1)
+                y = 5 + 5 * (i - 1)
+                microbump = app.modeler.create_sphere([x, y, 0.5], radius=0.25, name=f"Microbump{i}_{j}")
+                microbumps.append(microbump)
+        
+        # 创建Interposer
+        interposer = app.modeler.create_box([0, -5, 1], [30, 20, 0.5], name="Interposer")
+        
+        print("Complex 3D geometry created successfully.")
+        return chiplet1, chiplet2, chiplet3, chiplet4, tsvs, microbumps, interposer, substrate
+    except Exception as e:
+        raise RuntimeError(f"Failed to create geometry: {e}")
+
+def main():
+    app = initialize_icepak_project()
+    chiplet1, chiplet2, chiplet3, chiplet4, tsvs, microbumps, interposer, substrate = create_3d_chiplet_geometry(app)
+    
+    # 保存项目
+    project_name = "ComplexChipletProject"
+    project_path = r"C:\Users\baike\Desktop\model\ComplexChipletProject.aedt"
+    app.save_project(project_path)
+    print(f"Project {project_name} saved successfully at {project_path}.")
+
+if __name__ == "__main__":
+    main()
