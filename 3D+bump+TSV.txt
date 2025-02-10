@@ -1,5 +1,10 @@
 import os
 from ansys.aedt.core import Icepak
+from ansys.aedt.core.desktop import Desktop
+
+# 启动 AEDT
+desktop = Desktop("2024.2", student_version=True)
+
 
 def initialize_icepak_project():
     os.environ["ANSYSEM_ROOT242"] = r"D:\Program Files\AnsysEM\Ansys Student\v242\Win64"
