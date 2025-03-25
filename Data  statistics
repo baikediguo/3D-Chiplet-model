@@ -1,0 +1,104 @@
+import os
+import re
+import datetime
+from datasets import Dataset
+
+# 配置路径
+code_repo_path = r"C:\Users\baike\PycharmProjects\Data\pyaedt-0.14.1"
+
+# 检查路径是否存在
+if not os.path.exists(code_repo_path):
+    raise FileNotFoundError(f"路径 {code_repo_path} 不存在，请检查路径配置。")
+
+# 预处理代码文件：清除注释、多行字符串和其他无用信息
+def preprocess_code(content):
+    # 移除单行注释
+    content = re.sub(r'#.*', '', content)
+    # 移除多行字符串
+    content = re.sub(r'(\'\'\'.*?\'\'\')|(\"\"\".*?\"\"\")', '', content, flags=re.DOTALL)
+    # 移除多余的空格和制表符
+    content = re.sub(r'\s+', ' ', content)
+    # 移除空行
+    content = re.sub(r'\n\s*\n', '\n', content)
+    return content.strip()
+
+# 读取并预处理文件
+def read_and_preprocess_file(file_path):
+    try:
+        # 获取文件的创建时间和修改时间
+        create_time = datetime.datetime.fromtimestamp(os.path.getctime(file_path)).strftime('%Y-%m-%d %H:%M:%S')
+        modify_time = datetime.datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%Y-%m-%d %H:%M:%S')
+
+        with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+            content = f.read()
+            cleaned_content = preprocess_code(content)
+            if cleaned_content:
+                # 统计代码行数
+                lines = cleaned_content.split('\n')
+                line_count = len(lines)
+                return {
+                    "code": cleaned_content,
+                    "file_path": file_path,
+                    "create_time": create_time,
+                    "modify_time": modify_time,
+                    "line_count": line_count
+                }
+            else:
+                print(f"文件 {file_path} 预处理后内容为空，跳过。")
+    except Exception as e:
+        print(f"读取文件 {file_path} 时出错: {e}")
+    return None
+
+# 加载和预处理代码数据
+def load_and_preprocess_code(repo_path):
+    code_files = []
+    for root, _, files in os.walk(repo_path):
+        for file in files:
+            if file.endswith(".py"):
+                file_path = os.path.join(root, file)
+                result = read_and_preprocess_file(file_path)
+                if result:
+                    code_files.append(result)
+    return code_files
+
+# 主函数
+def main():
+    # 加载和预处理代码数据
+    dataset = Dataset.from_list(load_and_preprocess_code(code_repo_path))
+
+    # 检查数据集是否为空
+    if len(dataset) == 0:
+        print("数据集为空，请检查代码仓库路径或文件内容。")
+        return
+
+    # 统计数据量
+    data_count = len(dataset)
+
+    # 提取数据的时间范围
+    create_times = [entry["create_time"] for entry in dataset]
+    modify_times = [entry["modify_time"] for entry in dataset]
+
+    # 转换为日期对象
+    create_dates = [datetime.datetime.strptime(ct, '%Y-%m-%d %H:%M:%S').date() for ct in create_times]
+    modify_dates = [datetime.datetime.strptime(mt, '%Y-%m-%d %H:%M:%S').date() for mt in modify_times]
+
+    # 获取最早和最晚的创建时间和修改时间
+    earliest_create = min(create_dates)
+    latest_create = max(create_dates)
+    earliest_modify = min(modify_dates)
+    latest_modify = max(modify_dates)
+
+    # 统计代码行数
+    total_lines = sum(entry["line_count"] for entry in dataset)
+    avg_lines = total_lines / data_count
+
+    # 输出统计数据
+    print(f"数据集包含 {data_count} 条记录。")
+    print(f"数据格式为: {dataset[0]}")
+    print(f"数据时间范围（创建时间）: 从 {earliest_create} 到 {latest_create}")
+    print(f"数据时间范围（修改时间）: 从 {earliest_modify} 到 {latest_modify}")
+    print(f"总代码行数: {total_lines}")
+    print(f"平均每条记录的代码行数: {avg_lines:.2f}")
+
+if __name__ == "__main__":
+    main()
