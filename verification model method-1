@@ -1,0 +1,162 @@
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
+import os
+from datetime import datetime
+
+# 1. 路径配置
+model_dir = r"D:\PycharmProjects\model\codegen-350M-multi\codegen350训练模型结果"
+output_dir = r"D:\PycharmProjects\output"
+
+# 确保输出目录存在
+os.makedirs(output_dir, exist_ok=True)
+
+# 2. 增强型模型加载
+print("初始化模型体系...")
+tokenizer = AutoTokenizer.from_pretrained(model_dir)
+model = AutoModelForCausalLM.from_pretrained(model_dir)
+
+# 配置分词器增强
+tokenizer.pad_token = tokenizer.eos_token
+tokenizer.add_special_tokens({'additional_special_tokens': ['[END]']})
+
+# 3. 智能生成器类
+class CodeGenerator:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.max_model_length = model.config.max_position_embeddings
+        self.chunk_size = 256  # 减小分块大小以支持更长生成
+        
+    def generate_long_code(self, prompt, max_total_length=3000):
+        """
+        支持超长代码生成的分块方法
+        """
+        inputs = self.tokenizer(
+            prompt,
+            return_tensors="pt",
+            truncation=True,
+            max_length=self.max_model_length - self.chunk_size
+        )
+        current_input = inputs.input_ids
+        full_output = current_input.clone()
+        
+        for _ in range(max_total_length // self.chunk_size):
+            remaining_length = self.max_model_length - current_input.shape[1]
+            current_chunk_size = min(self.chunk_size, remaining_length)
+            
+            try:
+                with torch.no_grad():
+                    outputs = self.model.generate(
+                        current_input,
+                        max_length=current_input.shape[1] + current_chunk_size,
+                        temperature=0.65,
+                        top_p=0.92,
+                        do_sample=True,
+                        pad_token_id=tokenizer.pad_token_id,
+                        eos_token_id=tokenizer.eos_token_id,
+                        repetition_penalty=1.15,
+                        num_return_sequences=1
+                    )
+                
+                new_tokens = outputs[0, current_input.shape[1]:]
+                full_output = torch.cat([full_output, new_tokens.unsqueeze(0)], dim=1)
+                
+                # 终止条件检测
+                if self.tokenizer.eos_token_id in new_tokens:
+                    break
+                    
+                # 更新上下文窗口（保留更多上下文）
+                current_input = full_output[:, -min(self.max_model_length, 768):]
+                
+            except RuntimeError as e:
+                if "CUDA out of memory" in str(e):
+                    print("检测到显存不足，优化中...")
+                    self.chunk_size = max(self.chunk_size // 2, 64)
+                    torch.cuda.empty_cache()
+                else:
+                    raise e
+        
+        return self.tokenizer.decode(full_output[0], skip_special_tokens=True)
+
+# 4. 增强保存功能
+def save_generated_code(content, output_dir=output_dir):
+    """带时间戳和错误处理的保存函数"""
+    try:
+        # 生成唯一文件名
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"generated_code_{timestamp}.py"
+        filepath = os.path.join(output_dir, filename)
+        
+        # 写入文件
+        with open(filepath, "w", encoding="utf-8") as f:
+            f.write(content)
+            
+        print(f"代码已保存至：{filepath}")
+        return filepath
+    except Exception as e:
+        print(f"保存失败: {str(e)}")
+        return None
+
+# 5. 完整工作流程
+def main():
+    detailed_prompt = """
+    请生成完整的3D chiplet芯片热仿真Python代码，要求：
+    1. 使用ANSYS Mechanical APDL
+    2. 包含以下模块：
+       - 材料属性定义（硅、铜、封装材料）
+       - 三维网格生成
+       - 热边界条件设置
+       - 瞬态热分析
+       - 结果可视化（温度云图、热流矢量）
+    3. 代码要求：
+       - 模块化函数设计
+       - 详细的注释说明
+       - 错误处理机制
+       - 参数化输入支持
+    """
+    
+    print("启动代码生成...")
+    generator = CodeGenerator(model, tokenizer)
+    
+    try:
+        # 分阶段生成
+        print("生成主程序...")
+        main_code = generator.generate_long_code(detailed_prompt, 2500)
+        
+        # 验证并补充生成
+        if not validate_code_structure(main_code):
+            print("检测到不完整代码，进行补充生成...")
+            additional_code = generator.generate_long_code(
+                f"{main_code}\n# 请继续完成上述未完成的代码部分",
+                1000
+            )
+            main_code += "\n" + additional_code
+        
+        # 保存结果
+        saved_path = save_generated_code(main_code)
+        if saved_path:
+            print(f"成功生成代码，文件长度：{len(main_code)} 字符")
+            
+    except Exception as e:
+        print(f"生成过程出错: {str(e)}")
+
+def validate_code_structure(code):
+    """增强的代码结构验证"""
+    required_blocks = [
+        "def main()",
+        "class Material",
+        "if __name__ == '__main__'",
+        "plt.show()"
+    ]
+    return all(block in code for block in required_blocks)
+
+if __name__ == "__main__":
+    # 检查 CUDA 是否可用
+    if torch.cuda.is_available():
+        # 启用混合精度推理
+        model = model.half().to('cuda')
+        torch.backends.cuda.max_split_size_mb = 256
+    else:
+        print("CUDA 不可用，使用 CPU 进行推理。")
+    
+    main()
