@@ -1,0 +1,144 @@
+import os
+from transformers import RobertaTokenizer, T5ForConditionalGeneration, Trainer, TrainingArguments
+from torch.utils.data import Dataset
+
+
+# 1. 自定义 Dataset 类
+class CodeDataset(Dataset):
+    def __init__(self, encodings):
+        self.encodings = encodings
+
+    def __getitem__(self, idx):
+        return {key: val[idx] for key, val in self.encodings.items()}
+
+    def __len__(self):
+        return len(self.encodings["input_ids"])
+
+
+# 2. 设置路径
+model_path = r"C:\Users\baike\PycharmProjects\pythonProject\codet5-base"  # 本地模型路径
+data_path = r"C:\Users\baike\PycharmProjects\pyaedt-0.14.1"  # 训练数据路径
+output_path = r"C:\Users\baike\AppData\Local\Temp\temp"  # 模型输出路径
+
+# 3. 检查本地模型目录
+print("检查本地模型目录...")
+files_in_model_dir = os.listdir(model_path) if os.path.exists(model_path) else []
+print("模型目录中的文件：")
+for file in files_in_model_dir:
+    print(file)
+
+required_files = [
+    "config.json",
+    "pytorch_model.bin",
+    "special_tokens_map.json",
+    "tokenizer_config.json",
+    "vocab.json"
+]
+
+missing_files = [file for file in required_files if file not in files_in_model_dir]
+
+if missing_files:
+    print(f"缺少以下文件：{missing_files}")
+    # 重新下载模型到本地路径
+    print("重新下载模型到本地路径...")
+    model_name = "Salesforce/codet5-base"
+
+    # 下载并保存模型
+    model = T5ForConditionalGeneration.from_pretrained(model_name)
+    model.save_pretrained(model_path)
+
+    # 下载并保存分词器
+    tokenizer = RobertaTokenizer.from_pretrained(model_name)
+    tokenizer.save_pretrained(model_path)
+else:
+    print("所有必需的文件都存在。")
+
+# 4. 加载预训练模型和分词器
+print("加载预训练模型和分词器...")
+tokenizer = RobertaTokenizer.from_pretrained(model_path)
+model = T5ForConditionalGeneration.from_pretrained(model_path)
+
+# 检查并添加 pad_token
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token  # 使用 eos_token 作为 pad_token
+
+# 5. 准备训练数据
+print("准备训练数据...")
+train_data = []
+
+# 遍历数据目录，读取所有 .py 文件
+for root, dirs, files in os.walk(data_path):
+    for file in files:
+        if file.endswith(".py"):
+            file_path = os.path.join(root, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    train_data.append(f.read())
+            except Exception as e:
+                print(f"无法读取文件 {file_path}: {e}")
+
+# 调试信息：检查 train_data 是否为空
+if not train_data:
+    raise ValueError("train_data 为空，请检查数据路径和文件内容。")
+else:
+    print(f"成功加载 {len(train_data)} 个文件。")
+
+# 6. 数据预处理
+print("数据预处理...")
+inputs = tokenizer(
+    train_data,  # 训练数据
+    return_tensors="pt",  # 返回 PyTorch 张量
+    max_length=512,  # 最大长度
+    truncation=True,  # 启用截断
+    padding="max_length",  # 填充到最大长度
+    return_attention_mask=True,  # 返回 attention_mask
+)
+
+# 添加 labels 字段
+inputs["labels"] = inputs["input_ids"].clone()
+
+# 检查 inputs 是否为空
+if len(inputs["input_ids"]) == 0:
+    raise ValueError("输入数据为空，请检查数据加载和预处理步骤。")
+
+# 7. 创建 Dataset 对象
+print("创建 Dataset 对象...")
+train_dataset = CodeDataset(inputs)
+
+# 8. 定义训练参数
+print("设置训练参数...")
+training_args = TrainingArguments(
+    output_dir=output_path,  # 模型输出路径
+    overwrite_output_dir=True,  # 覆盖输出目录
+    num_train_epochs=3,  # 训练轮数
+    per_device_train_batch_size=2,  # 每个设备的批量大小
+    save_steps=10_000,  # 每多少步保存一次模型
+    save_total_limit=2,  # 最多保存的模型数量
+)
+
+# 9. 定义 Trainer
+print("初始化 Trainer...")
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,  # 使用 Dataset 对象
+)
+
+# 10. 开始训练
+print("开始训练...")
+trainer.train()
+
+# 11. 保存微调后的模型
+print("保存微调后的模型...")
+model.save_pretrained(output_path)
+tokenizer.save_pretrained(output_path)
+
+# 12. 生成代码示例
+print("生成代码示例...")
+input_text = "def hello_world():"
+input_ids = tokenizer.encode(input_text, return_tensors="pt")
+output = model.generate(input_ids, max_length=50)
+generated_code = tokenizer.decode(output[0], skip_special_tokens=True)
+
+print("生成的代码：")
+print(generated_code)
