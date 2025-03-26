@@ -1,0 +1,81 @@
+import os
+from transformers import AutoModelForCausalLM, AutoTokenizer, Trainer, TrainingArguments
+from torch.utils.data import Dataset
+
+# 1. 自定义 Dataset 类（保持不变）
+class CodeDataset(Dataset):
+    def __init__(self, encodings):
+        self.encodings = encodings
+
+    def __getitem__(self, idx):
+        return {key: val[idx] for key, val in self.encodings.items()}
+
+    def __len__(self):
+        return len(self.encodings["input_ids"])
+
+# 2. 设置路径
+model_path = "D:/PycharmProjects/model/Qwen2.5-Coder-7B-Instruct"  # 使用正斜杠或双反斜杠
+data_path = "D:/PycharmProjects/data/pyaedt-0.14.1"
+output_path = "D:/PycharmProjects/output"
+
+# 3. 加载预训练模型和分词器
+print("加载预训练模型和分词器...")
+tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+model = AutoModelForCausalLM.from_pretrained(model_path, local_files_only=True)
+
+# 检查并添加 pad_token
+if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
+
+# 4. 准备训练数据（保持不变）
+print("准备训练数据...")
+train_data = []
+for root, dirs, files in os.walk(data_path):
+    for file in files:
+        if file.endswith(".py"):
+            with open(os.path.join(root, file), "r", encoding="utf-8") as f:
+                train_data.append(f.read())
+
+# 5. 数据预处理（保持不变）
+print("数据预处理...")
+inputs = tokenizer(
+    train_data,
+    return_tensors="pt",
+    max_length=512,
+    truncation=True,
+    padding="max_length",
+    return_attention_mask=True,
+)
+inputs["labels"] = inputs["input_ids"].clone()
+
+# 6. 创建 Dataset 对象（保持不变）
+print("创建 Dataset 对象...")
+train_dataset = CodeDataset(inputs)
+
+# 7. 定义训练参数（保持不变）
+print("设置训练参数...")
+training_args = TrainingArguments(
+    output_dir=output_path,
+    overwrite_output_dir=True,
+    num_train_epochs=3,
+    per_device_train_batch_size=2,
+    save_steps=10_000,
+    save_total_limit=2,
+)
+
+# 8. 定义 Trainer（保持不变）
+print("初始化 Trainer...")
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=train_dataset,
+)
+
+# 9. 开始训练（保持不变）
+print("开始训练...")
+trainer.train()
+
+# 10. 保存模型（保持不变）
+print("保存微调后的模型...")
+model.save_pretrained(output_path)
+tokenizer.save_pretrained(output_path)
