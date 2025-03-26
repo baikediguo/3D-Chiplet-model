@@ -1,0 +1,137 @@
+import os
+import tkinter as tk
+from tkinter import scrolledtext
+from transformers import AutoModelForCausalLM, AutoTokenizer
+import warnings
+
+warnings.filterwarnings("ignore", category=FutureWarning)
+
+
+# 生成代码段
+def generate_code_segment(model, tokenizer, prompt, max_new_tokens=512, temperature=0.3):
+    inputs = tokenizer(prompt, return_tensors="pt", max_length=2048, truncation=True)
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=max_new_tokens,
+        temperature=temperature,
+        num_return_sequences=1,
+        do_sample=True,
+        pad_token_id=tokenizer.eos_token_id,
+        eos_token_id=tokenizer.eos_token_id
+    )
+    generated_code = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    return generated_code
+
+
+# GUI 界面
+class CodeGeneratorGUI:
+    def __init__(self, model, tokenizer):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.current_prompt = ""
+        self.save_path = r"C:\Users\baike\AppData\Local\Temp\temp\generated_code.py"
+        self.full_code = ""
+        self.total_tokens = 0
+        self.max_total_tokens = 2048  # 设置最大总tokens数
+
+        # 确保目录存在
+        os.makedirs(os.path.dirname(self.save_path), exist_ok=True)
+
+        # 创建主窗口
+        self.root = tk.Tk()
+        self.root.title("代码生成器")
+
+        # 输入框
+        self.input_label = tk.Label(self.root, text="请输入需求：")
+        self.input_label.pack(pady=5)
+        self.input_field = scrolledtext.ScrolledText(self.root, height=10, width=70)
+        self.input_field.pack(pady=5)
+
+        # 输出框
+        self.output_label = tk.Label(self.root, text="生成进度：")
+        self.output_label.pack(pady=5)
+        self.output_field = tk.Text(self.root, height=1, width=70)
+        self.output_field.pack(pady=5)
+
+        # 进度条
+        self.progress_label = tk.Label(self.root, text="进度条：")
+        self.progress_label.pack(pady=5)
+        self.progress_field = tk.Canvas(self.root, width=700, height=20)
+        self.progress_field.pack(pady=5)
+
+        # 按钮
+        self.generate_button = tk.Button(self.root, text="开始生成", command=self.on_generate)
+        self.generate_button.pack(pady=10)
+
+    def update_progress(self, progress):
+        # 更新进度条
+        self.progress_field.delete("all")
+        width = 700 * progress
+        self.progress_field.create_rectangle(0, 0, width, 20, fill="blue")
+        self.output_field.delete("1.0", tk.END)
+        self.output_field.insert(tk.END, f"已生成 {progress*100:.2f}%")
+
+    def on_generate(self):
+        # 获取用户输入
+        prompt = self.input_field.get("1.0", tk.END).strip()
+        if not prompt:
+            self.output_field.insert(tk.END, "请输入需求！\n")
+            return
+
+        # 初始化生成
+        self.current_prompt = prompt
+        self.full_code = ""
+        self.total_tokens = 0
+        self.stopped = False
+
+        # 启动生成线程
+        import threading
+        threading.Thread(target=self.generate_all).start()
+
+    def generate_all(self):
+        while not self.stopped and self.total_tokens < self.max_total_tokens:
+            # 生成代码段
+            generated_code = generate_code_segment(self.model, self.tokenizer, self.current_prompt)
+            self.full_code += generated_code + "\n"
+            self.current_prompt = generated_code
+
+            # 更新进度
+            self.total_tokens += len(self.tokenizer(generated_code, return_tensors="pt").input_ids[0])
+            progress = min(self.total_tokens / self.max_total_tokens, 1.0)
+            self.update_progress(progress)
+
+        # 生成完成
+        self.stopped = True
+        self.update_progress(1.0)
+        self.output_field.insert(tk.END, "代码生成完成。\n")
+
+        # 自动保存完整代码到文件
+        self.auto_save()
+
+    def auto_save(self):
+        # 自动保存完整代码到文件
+        with open(self.save_path, "w", encoding="utf-8") as f:
+            f.write(self.full_code)
+        self.output_field.insert(tk.END, f"完整代码已自动保存到 {self.save_path}\n")
+
+    def run(self):
+        self.root.mainloop()
+
+
+# 主函数
+def main():
+    # 模型路径
+    model_path = r"C:\Users\baike\AppData\Local\Temp\temp"
+
+    # 加载模型
+    model = AutoModelForCausalLM.from_pretrained(model_path)
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
+
+    # 启动 GUI 界面
+    gui = CodeGeneratorGUI(model, tokenizer)
+    gui.run()
+
+
+if __name__ == "__main__":
+    main()
+
