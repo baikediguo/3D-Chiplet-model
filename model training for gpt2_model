@@ -1,0 +1,123 @@
+import os
+import re
+import asyncio
+from transformers import AutoTokenizer, AutoModelForCausalLM, TrainingArguments, Trainer, DataCollatorForLanguageModeling
+from datasets import Dataset, concatenate_datasets
+import nest_asyncio
+
+# 允许在同步环境中运行异步代码
+nest_asyncio.apply()
+
+# 配置路径
+code_repo_path = r"C:\Users\baike\PycharmProjects\pyaedt-0.14.1"
+output_model_path = r"C:\Users\baike\AppData\Local\Temp\temp"
+pretrained_model_path = r"C:\Users\baike\PycharmProjects\pythonProject\codegen-350M-multi"
+
+# 预处理代码文件：清除注释、多行字符串和其他无用信息
+def preprocess_code(content):
+    # 移除单行注释
+    content = re.sub(r'#.*', '', content)
+    # 移除多行字符串
+    content = re.sub(r'(\'\'\'.*?\'\'\')|(\"\"\".*?\"\"\")', '', content, flags=re.DOTALL)
+    # 移除多余的空格和制表符
+    content = re.sub(r'\s+', ' ', content)
+    # 移除空行
+    content = re.sub(r'\n\s*\n', '\n', content)
+    return content.strip()
+
+# 异步读取文件并预处理
+async def read_and_preprocess_file(file_path):
+    with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+        content = f.read()
+        cleaned_content = preprocess_code(content)
+        if cleaned_content:
+            return {"code": cleaned_content}
+    return None
+
+# 异步加载和预处理代码数据
+async def load_and_preprocess_code(repo_path):
+    code_files = []
+    for root, _, files in os.walk(repo_path):
+        for file in files:
+            if file.endswith(".py"):
+                file_path = os.path.join(root, file)
+                result = await read_and_preprocess_file(file_path)
+                if result:
+                    code_files.append(result)
+    return code_files
+
+# 同步加载和预处理代码数据
+def load_and_preprocess_code_sync(repo_path):
+    code_files = []
+    for root, _, files in os.walk(repo_path):
+        for file in files:
+            if file.endswith(".py"):
+                file_path = os.path.join(root, file)
+                with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                    content = f.read()
+                    cleaned_content = preprocess_code(content)
+                    if cleaned_content:
+                        code_files.append({"code": cleaned_content})
+    return code_files
+
+# 使用异步加载数据
+async def main():
+    # 加载和预处理代码数据
+    dataset = Dataset.from_list(await load_and_preprocess_code(code_repo_path))
+
+    # 加载预训练模型和分词器
+    tokenizer = AutoTokenizer.from_pretrained(pretrained_model_path)
+    model = AutoModelForCausalLM.from_pretrained(pretrained_model_path)
+
+    # 为分词器添加 pad_token
+    tokenizer.pad_token = tokenizer.eos_token  # 使用 eos_token 作为 pad_token
+
+    # 分词函数
+    def tokenize_function(examples):
+        return tokenizer(examples["code"], truncation=True, max_length=512, padding="max_length")
+
+    # 应用分词
+    tokenized_dataset = dataset.map(tokenize_function, batched=True)
+
+    # 设置训练参数
+    training_args = TrainingArguments(
+        output_dir=output_model_path,
+        overwrite_output_dir=True,
+        num_train_epochs=3,
+        per_device_train_batch_size=8,
+        save_steps=10_000,
+        save_total_limit=2,
+        logging_dir="./logs",
+        logging_steps=100,
+        evaluation_strategy="no",
+        learning_rate=5e-5,
+        fp16=True,  # 使用混合精度训练以加速
+        gradient_accumulation_steps=2,  # 梯度累积以模拟更大的批量大小
+    )
+
+    # 添加数据收集器
+    data_collator = DataCollatorForLanguageModeling(
+        tokenizer=tokenizer,
+        mlm=False  # 因为是因果语言模型，所以设置为 False
+    )
+
+    # 创建 Trainer
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=tokenized_dataset,
+        data_collator=data_collator  # 添加数据收集器
+    )
+
+    # 开始训练
+    trainer.train()
+
+    # 保存模型
+    model.save_pretrained(output_model_path)
+    tokenizer.save_pretrained(output_model_path)
+
+    print(f"模型已保存到: {output_model_path}")
+
+# 运行异步主函数
+if __name__ == "__main__":
+    asyncio.run(main())
