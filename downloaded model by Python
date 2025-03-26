@@ -1,0 +1,24 @@
+import os
+from huggingface_hub import snapshot_download
+
+# 设置镜像地址
+os.environ['HF_ENDPOINT'] = 'https://hf-mirror.com'  # 确保地址正确，去掉多余的空格和HTML标签
+
+# 模型名称
+model_name = "Qwen/QwQ-32B"
+
+# 本地保存路径
+local_dir = r"D:\PycharmProjects\model\QwQ-32B"  # 使用原始字符串定义路径
+
+# 下载模型
+try:
+    # 尝试下载模型
+    snapshot_download(repo_id=model_name, local_dir=local_dir)
+    print(f"模型已成功下载到 {local_dir}")
+except Exception as e:
+    # 如果下载失败，打印错误信息
+    print(f"下载失败：{e}")
+    print("请检查以下内容：")
+    print("1. 确保模型名称和路径正确无误。")
+    print("2. 确保网络可以访问 https://hf-mirror.com。")
+    print("3. 如果问题仍然存在，可以尝试手动下载模型文件。")
