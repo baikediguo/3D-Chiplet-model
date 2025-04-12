@@ -1,0 +1,179 @@
+import os
+from ansys.aedt.core import Icepak, Desktop
+
+def initialize_icepak_project():
+    app = Icepak()
+    print("Icepak application initialized successfully.")
+
+    if not hasattr(app, 'odesign') or app.odesign is None:
+        raise AttributeError("Icepak design object (odesign) is not initialized.")
+    else:
+        print("Icepak design object (odesign) initialized successfully.")
+
+    return app
+
+def create_3d_chiplet_geometry(app):
+    try:
+        # 创建一个较大的基底板
+        base = app.modeler.create_box([0, -5, -1], [30, 20, 1], name="Base")
+
+        # 创建三个3D Chiplet几何体，确保它们都在基板内部且不重叠
+        chiplet1 = app.modeler.create_box([5, 5, 0], [5, 5, 1], name="Chiplet1")
+        chiplet2 = app.modeler.create_box([15, 5, 0], [5, 5, 1], name="Chiplet2")
+        chiplet3 = app.modeler.create_box([25, 5, 0], [5, 5, 1], name="Chiplet3")
+
+        # 创建TSV结构，每个chiplet内部有4个TSV
+        tsv_positions = [
+            [6, 6, 0], [8, 6, 0], [6, 8, 0], [8, 8, 0],  # Chiplet1 TSVs
+            [16, 6, 0], [18, 6, 0], [16, 8, 0], [18, 8, 0],  # Chiplet2 TSVs
+            [26, 6, 0], [28, 6, 0], [26, 8, 0], [28, 8, 0]  # Chiplet3 TSVs
+        ]
+
+        tsvs = []
+        for i, pos in enumerate(tsv_positions, start=1):
+            tsv = app.modeler.create_cylinder(orientation="Z", origin=pos, radius=0.2, height=1, name=f"TSV{i}")
+            tsvs.append(tsv)
+
+        # 创建微凸点
+        microbumps = []
+        for i, chiplet in enumerate([chiplet1, chiplet2, chiplet3], start=1):
+            for j in range(1, 5):
+                x = 5 + 5 * (j - 1)
+                y = 5 + 5 * (i - 1)
+                microbump = app.modeler.create_sphere(origin=[x, y, 0.5], radius=0.2, name=f"Microbump{i}_{j}")
+                microbumps.append(microbump)
+
+        print("Complex 3D geometry created successfully.")
+        return chiplet1, chiplet2, chiplet3, tsvs, microbumps
+    except Exception as e:
+        raise RuntimeError(f"Failed to create geometry: {e}")
+
+def apply_materials(app):
+    try:
+        app.materials.add_material("copper")
+        app.materials.add_material("silicon")
+        print("Materials added successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to apply materials: {e}")
+
+def mesh_setup(app):
+    try:
+        app.mesh.assign_mesh_level({"Base": 2, "Chiplet1": 3, "Chiplet2": 3, "Chiplet3": 3})
+        print("Mesh setup completed successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to setup mesh: {e}")
+
+def adjust_positions(app):
+    try:
+        app.modeler.move(["Chiplet1", "Chiplet2", "Chiplet3"], [1, 1, 0])
+        print("Position adjustments completed successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to adjust positions: {e}")
+
+def apply_heat_sources(app):
+    try:
+        app.create_source_blocks_from_list([["Chiplet1", 5], ["Chiplet2", 5], ["Chiplet3", 5]])
+        print("Heat sources applied successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to apply heat sources: {e}")
+
+def apply_device_resistances(app):
+    try:
+        object_name = "Base"
+        resistance_value = "0.1" # 使用浮点数
+        app.assign_device_resistance(object_name, resistance_value)  # 传递浮点数
+        print("Device resistances applied successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to apply device resistances: {e}")
+
+def apply_boundary_conditions(app):
+    try:
+        # 获取“Base”对象的面ID
+        base_faces = app.modeler.get_object_faces("Base")
+        if not base_faces:
+            raise RuntimeError("No faces found for 'Base' object")
+
+        # 只对基部的第一个面应用开口
+        app.assign_openings([base_faces[0]])
+        print("Boundary conditions applied successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to apply boundary conditions: {e}")
+
+def apply_monitors(app):
+    try:
+        # 获取“Base”对象的面ID
+        base_faces = app.modeler.get_object_faces("Base")
+        if not base_faces:
+            raise RuntimeError("No faces found for 'Base' object")
+
+        # 假设您想要监视基部的第一个面
+        app.monitor.assign_face_monitor(face_id=base_faces[0])
+        app.monitor.assign_point_monitor([10, 10, 0])
+        print("Monitors applied successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to apply monitors: {e}")
+
+def setup_simulation(app):
+    try:
+        # 创建一个新的设置
+        setup_name = "Transient"
+        setup = app.create_setup(setup_name)
+        setup.props["Time Step"] = "0.1s"
+        setup.props["Stop Time"] = "10s"
+        setup.update()
+        print("Simulation setup completed successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to setup simulation: {e}")
+
+def solve_simulation(app):
+    try:
+        setup_name = "Transient"
+        result = app.analyze_setup(setup_name)
+        if not result:
+            raise RuntimeError("Simulation failed to solve")
+        print("Simulation solved successfully.")
+    except Exception as e:
+        print(f"Failed to solve simulation: {e}")
+        input("Simulation failed. Press Enter to continue...")
+
+def visualize_results(app):
+    try:
+        # 使用不同的方法可视化结果
+        app.post.create_fieldplot_surface(["Base"], "Temperature")
+        print("Results visualization completed successfully.")
+    except Exception as e:
+        raise RuntimeError(f"Failed to visualize results: {e}")
+
+def main():
+    desktop = Desktop("2024.2", non_graphical=False, new_desktop=True)
+    os.environ["ANSYSEM_ROOT242"] = r"D:\Program Files\AnsysEM\v242\Win64"
+
+    app = initialize_icepak_project()
+    chiplet1, chiplet2, chiplet3, tsvs, microbumps = create_3d_chiplet_geometry(app)
+    apply_materials(app)
+    mesh_setup(app)
+    adjust_positions(app)
+    apply_heat_sources(app)
+    apply_device_resistances(app)
+    apply_boundary_conditions(app)
+    apply_monitors(app)
+    setup_simulation(app)
+    solve_simulation(app)
+    visualize_results(app)
+
+    # 保存项目
+    project_name = r"C:\Users\baike\Desktop\model\ComplexChipletProject.aedt"
+    app.save_project(project_name)
+    print(f"Project {project_name} saved successfully。")
+
+    # 检查Desktop状态
+    try:
+        active_project_name = desktop.odesktop.GetActiveProject().GetName()
+        print(f"Active project in Desktop: {active_project_name}")
+    except Exception as e:
+        print(f"Failed to get active project name: {e}")
+
+    input("Press Enter to exit...")
+
+if __name__ == "__main__":
+    main()
