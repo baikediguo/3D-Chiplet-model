@@ -1,0 +1,171 @@
+import os
+from ansys.aedt.core import Icepak
+
+# 启动 AEDT
+os.environ["ANSYSEM_ROOT"] = r"D:\Program Files\Ansys\v242\Win64"
+os.environ["YSEM_ROOT"] = r"D:\Program Files\Ansys\v242\Win64"
+app = Icepak(new_desktop=True)
+
+def create_3d_chip_geometry(app):
+    try:
+        # 创建基板
+        base = app.modeler.create_box([0, -5, -1], [30, 20, 1], name="Base")
+
+        # 创建Chiplet
+        chiplet1 = app.modeler.create_box([5, 5, 0], [5, 5, 1], name="Chiplet1")
+        chiplet2 = app.modeler.create_box([15, 5, 0], [5, 5, 1], name="Chiplet2")
+        chiplet3 = app.modeler.create_box([25, 5, 0], [5, 5, 1], name="Chiplet3")
+
+        # 创建TSV
+        ts_positions = [
+            [6, 6, 0], [8, 6, 0], [6, 8, 0], [8, 8, 0],
+            [16, 6, 0], [18, 6, 0], [16, 8, 0], [18, 8, 0],
+            [26, 6, 0], [28, 6, 0], [26, 8, 0], [28, 8, 0]
+        ]
+        ts = []
+        for i, pos in enumerate(ts_positions, start=1):
+            tsv = app.modeler.create_cylinder(
+                origin=pos,
+                orientation=[0, 0, 1],
+                radius=0.25,
+                height=1,
+                name=f"TSV{i}"
+            )
+            ts.append(tsv)
+
+        # 创建微凸点
+        microbumps = []
+        for i in range(3):
+            for j in range(1, 5):
+                x = 5 + 10 * i + j
+                y = 5 + j
+                microbump = app.modeler.create_sphere(
+                    [x, y, 0.5],
+                    radius=0.25,
+                    name=f"Microbump{i + 1}_{j}"
+                )
+                microbumps.append(microbump)
+
+        return chiplet1, chiplet2, chiplet3, ts, microbumps, ts_positions
+
+    except Exception as e:
+        raise RuntimeError(f"Geometry creation failed: {e}")
+
+def setup_simulation(
+    app,
+    chiplet1,
+    chiplet2,
+    chiplet3,
+    ts,
+    microbumps,
+    ts_positions
+):
+    try:
+        # 设置材料属性
+        app.materials.add_material(
+            name="Silicon",
+            properties={
+                "thermal_conductivity": "130",
+                "mass_density": "2330",
+                "specific_heat": "700"
+            }
+        )
+
+        app.materials.add_material(
+            name="FR4",
+            properties={
+                "thermal_conductivity": "0.3",
+                "mass_density": "1850",
+                "specific_heat": "1360"
+            }
+        )
+
+        # 分配材料
+        app.assign_material(["Base"], "FR4")
+        app.assign_material(
+            ["Chiplet1", "Chiplet2", "Chiplet3"],
+            "Silicon"
+        )
+        app.assign_material([f"TSV{i}" for i in range(1, 13)], "copper")
+
+        # 创建边界条件
+        base = app.modeler.primitives["Base"]
+        app.assign_openings(
+            objects=[base.name],
+            boundary_name="Opening_Base",
+        )
+
+        # 设置热源
+        power_assignments = {
+            chiplet1.name: "1.0W",
+            chiplet2.name: "5.0W",
+            chiplet3.name: "10.0W"
+        }
+        for obj_name, power in power_assignments.items():
+            app.assign_solid_block(
+                object_name=obj_name,
+                power_assignment=power
+            )
+
+        # 创建监控点
+        monitors = []
+        for chiplet in [chiplet1, chiplet2, chiplet3]:
+            monitor = app.monitor.assign_face_monitor(
+                face_id=chiplet.top_face_z.id,
+                monitor_quantity="Temperature",
+                monitor_name=f"{chiplet.name}_Temperature"
+            )
+            monitors.append(monitor)
+
+        # 设置网格划分
+        mesh_region = app.mesh.assign_mesh_region(
+            assignment=[
+                "Base",
+                "Chiplet1",
+                "Chiplet2",
+                "Chiplet3",
+                *[tsv.name for tsv in ts],
+                *[mb.name for mb in microbumps]
+            ]
+        )
+        mesh_region.manual_settings = True
+        mesh_region.settings["MaxElementSizeX"] = "2mm"
+        mesh_region.settings["MaxElementSizeY"] = "2mm"
+        mesh_region.settings["MaxElementSizeZ"] = "2mm"
+        mesh_region.update()
+
+        # 设置求解设置
+        setup = app.create_setup("MySetup")
+        setup.props["Flow Regime"] = "Turbulent"
+        setup.props["Convergence Criteria - Max Iterations"] = 10
+        setup.props["Linear Solver Type - Pressure"] = "flex"
+        setup.props["Linear Solver Type - Temperature"] = "flex"
+        return setup
+
+    except Exception as e:
+        raise RuntimeError(f"Simulation setup failed: {e}")
+
+def main():
+    app = Icepak()
+    (
+        chiplet1,
+        chiplet2,
+        chiplet3,
+        ts,
+        microbumps,
+        ts_positions
+    ) = create_3d_chip_geometry(app)
+    setup = setup_simulation(
+        app,
+        chiplet1,
+        chiplet2,
+        chiplet3,
+        ts,
+        microbumps,
+        ts_positions
+    )
+    app.analyze_setup(setup.name)
+    app.release_desktop()
+
+if __name__ == "__main__":
+    main()
