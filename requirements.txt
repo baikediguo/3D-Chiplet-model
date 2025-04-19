@@ -1,11 +1,20 @@
+# Python Version Requirement: 3.11.x (Recommended: 3.11.7)
+# Note: Some dependencies may not support Python 3.12+. Use a virtual environment.
+# Generated via: `pip freeze > requirements.txt`
+# Install by running this command directly:     pip install -r requirements.txt  
+# Resolve the permission issue use:   pip install --user -r "C:\Users\baike\PycharmProjects\pythonProject\requirements.txt"
+# Forbidden cash use:   pip install --no-cache-dir -r "C:\Users\baike\PycharmProjects\pythonProject\requirements.txt"
+# Clean cash use:  pip cache purge 
+# Core Dependencies
+
 about-time==4.2.1
 absl-py==2.1.0
-accelerate==1.2.1
+accelerate==0.30.0          # 截至 2024.10 的最新稳定版
 aiofiles==23.2.1
-aiohappyeyeballs @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/aiohappyeyeballs-2.4.6-py3-none-any.whl#sha256=147ec992cf873d74f5062644332c539fcd42956dc69453fe5204195e560517e1
-aiohttp @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/aiohttp-3.11.12-cp311-cp311-win_amd64.whl#sha256=246067ba0cf5560cf42e775069c5d80a8989d14a7ded21af529a4e10e3e0f0e6
-aiosignal @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/aiosignal-1.3.2-py2.py3-none-any.whl#sha256=45cde58e409a301715980c2b01d0c28bdde3770d8290b5eb2173759d9acb31a5
-alabaster @ file:///C:/b/abs_45ba4vacaj/croot/alabaster_1718201502252/work
+#aiohappyeyeballs==0.1.0 
+#aiohttp==3.11.12
+aiosignal==1.3.2
+alabaster==0.7.16
 alive-progress==3.2.0
 altair==5.5.0
 annotated-types==0.7.0
@@ -67,7 +76,7 @@ ansys-systemcoupling-core==0.6
 ansys-tools-filetransfer==0.1.0
 ansys-tools-local-product-launcher==0.1.0
 ansys-tools-path==0.6.0
-ansys-tools-visualization-interface @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/ansys_tools_visualization_interface-0.8.1-py3-none-any.whl#sha256=7951c9baa7e45f328d20f00fe557d76609ca4c9c8c7ed0971f2d2988a4048346
+ansys-tools-visualization-interface==0.8.1
 ansys-turbogrid-api==0.4.3
 ansys-turbogrid-core==0.4.1
 ansys-units==0.3.4
@@ -76,83 +85,82 @@ anyio==4.8.0
 appdirs==1.4.4
 argon2-cffi==23.1.0
 argon2-cffi-bindings==21.2.0
-arrow @ file:///C:/b/abs_c2lakss3ie/croot/arrow_1728676307980/work
+arrow==1.3.0
 asgiref==3.8.1
-astroid @ file:///C:/b/abs_0cbdmb3jwk/croot/astroid_1736455948867/work
-asttokens @ file:///opt/conda/conda-bld/asttokens_1646925590279/work
+astroid==3.1.0
+asttokens==2.4.1
 async-lru==2.0.4
-async-timeout @ file:///home/conda/feedstock_root/build_artifacts/async-timeout_1733235340728/work
-asyncssh @ file:///C:/b/abs_8ee_ywwv_i/croot/asyncssh_1729522974229/work
+async-timeout==4.0.3
+asyncssh==2.14.2
 atomicwrites==1.4.0
 attrs==24.2.0
 audioread==3.0.1
-autopep8 @ file:///croot/autopep8_1708962882016/work
+autopep8==2.2.0
 av==14.2.0
-babel @ file:///C:/b/abs_ffzt1bmjth/croot/babel_1737454394148/work
-backcall @ file:///home/ktietz/src/ci/backcall_1611930011877/work
+babel==2.15.0
+backcall==0.2.0
 backoff==2.2.1
 backports.entry-points-selectable==1.3.0
 backports.tarfile==1.2.0
-bcrypt @ file:///C:/b/abs_6bh_hni56u/croot/bcrypt_1736182479846/work
+bcrypt==4.1.2
 beartype==0.18.5
-beautifulsoup4 @ file:///C:/b/abs_d5wytg_p0w/croot/beautifulsoup4-split_1718029833749/work
+beautifulsoup4==4.12.3
 bibtexparser==1.4.3
-binaryornot @ file:///tmp/build/80754af9/binaryornot_1617751525010/work
-black @ file:///C:/b/abs_16b05kiqvj/croot/black_1737659150021/work
-bleach @ file:///C:/b/abs_925i9psm3u/croot/bleach_1732292896852/work
+binaryornot==0.4.4
+black==24.4.2
+bleach==6.1.0
 blinker==1.9.0
 bokeh==3.4.3
-Brotli @ file:///C:/b/abs_c415aux9ra/croot/brotli-split_1736182803933/work
 brotlipy==0.7.0
 build==1.2.2.post1
 cachetools==5.5.1
 certifi==2025.1.31
-cffi @ file:///C:/b/abs_29_b57if3f/croot/cffi_1736184144340/work
+cffi==1.16.0
 cfgv==3.4.0
-chardet @ file:///C:/ci_311/chardet_1676436134885/work
-charset-normalizer @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/charset_normalizer-3.4.1-cp311-cp311-win_amd64.whl#sha256=d7f50a1f8c450f3925cb367d011448c39239bb3eb4117c36a6d354794de4ce76
+chardet==5.2.0
+charset-normalizer==3.4.1
 click==8.1.8
-cloudpickle @ file:///C:/b/abs_8abv3sva4p/croot/cloudpickle_1721657372632/work
-clr_loader @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/clr_loader-0.2.7.post0-py3-none-any.whl#sha256=e0b9fcc107d48347a4311a28ffe3ae78c4968edb216ffb6564cb03f7ace0bb47
+cloudpickle==3.0.0
+#clr_loader==0.2.7.post0
 colorama==0.4.6
-comm @ file:///C:/b/abs_67a8058udb/croot/comm_1709322909844/work
-contourpy @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/contourpy-1.3.1-cp311-cp311-win_amd64.whl#sha256=b2bdca22a27e35f16794cf585832e542123296b4687f9fd96822db6bae17bfc9
-cookiecutter @ file:///C:/b/abs_66untpu1ub/croot/cookiecutter_1711059869779/work
+comm==0.2.2
+contourpy==1.3.1
+cookiecutter==2.6.0
 cryptography==44.0.0
-cycler @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/cycler-0.12.1-py3-none-any.whl#sha256=85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30
+cycler==0.12.1
 Cython==3.0.11
 dataclasses-json==0.6.7
 datasets==3.2.0
-debugpy @ file:///C:/b/abs_bf9oo2vhxp/croot/debugpy_1736269476451/work
-decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
-defusedxml @ file:///tmp/build/80754af9/defusedxml_1615228127516/work
+debugpy==1.8.1
+decorator==5.1.1
+defusedxml==0.7.1
 Deprecated==1.2.14
-diff-match-patch @ file:///Users/ktietz/demo/mc3/conda-bld/diff-match-patch_1630511840874/work
-dill @ file:///C:/b/abs_f79eg27d2q/croot/dill_1715094735295/work
+diff-match-patch==20230430
+dill==0.3.8
 distlib==0.3.9
 Django==4.2.18
 dnspython==2.7.0
 docker==7.1.0
-docstring-to-markdown @ file:///C:/ci_311/docstring-to-markdown_1677742566583/work
+docstring-to-markdown==0.12
 docstring_parser==0.16
 docutils==0.21.2
 einops==0.8.1
 elementpath==4.7.0
 email_validator==2.2.0
-entrypoints @ file:///C:/ci_311/entrypoints_1676423328987/work
-et_xmlfile @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/et_xmlfile-2.0.0-py3-none-any.whl#sha256=7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa
+entrypoints==0.4
+et_xmlfile==2.0.0
 exceptiongroup==1.2.2
-executing @ file:///opt/conda/conda-bld/executing_1646925071911/work
+executing==2.0.1
 fabric==3.2.2
 faiss-cpu==1.10.0
 fake-useragent==2.0.3
 fastapi==0.115.8
 fastapi-cli==0.0.7
-fastjsonschema @ file:///C:/b/abs_4ev90296ly/croot/python-fastjsonschema_1731939386416/work
+fastjsonschema==2.19.1
 ffmpy==0.5.0
-filelock @ file:///C:/b/abs_f2gie28u58/croot/filelock_1700591233643/work
-fire==0.7.0
-flake8 @ file:///C:/b/abs_11zrixwsv1/croot/flake8_1726157202790/work
+filelock==3.14.0
+#fire==0.7.0
+flake8==7.1.0
 Flask==3.1.0
 flexcache==0.3
 flexparser==0.4
@@ -160,13 +168,13 @@ fonttools==4.55.6
 fpdf2==2.8.2
 fqdn==1.5.1
 free_proxy==1.1.3
-frozenlist @ file:///C:/b/abs_06ctmb1zeo/croot/frozenlist_1730903113463/work
+frozenlist==1.4.1
 fsspec==2024.9.0
 geomdl==5.3.1
-geopandas @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/geopandas-1.0.1-py3-none-any.whl#sha256=01e147d9420cc374d26f51fc23716ac307f32b49406e4bd8462c07e82ed1d3d6
+geopandas==1.0.1
 gitdb==4.0.12
 GitPython==3.1.44
-gmpy2 @ file:///C:/b/abs_d8ki0o0h97/croot/gmpy2_1738085498525/work
+gmpy2==2.1.5
 google-api-core==2.24.0
 google-api-python-client==2.159.0
 google-auth==2.38.0
@@ -184,7 +192,7 @@ h11==0.14.0
 httpcore==1.0.7
 httplib2==0.22.0
 httptools==0.6.4
-httpx @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/httpx-0.28.1-py3-none-any.whl#sha256=d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad
+#httpx==0.28.1
 httpx-sse==0.4.0
 huggingface-hub==0.29.1
 id==1.5.0
@@ -192,48 +200,48 @@ identify==2.6.7
 idna==3.10
 imageio==2.37.0
 imageio-ffmpeg==0.6.0
-imagesize @ file:///C:/ci_311/imagesize_1676431905616/work
-importlib_metadata @ file:///C:/b/abs_9d0lp1ysmt/croot/importlib_metadata-suite_1732633510972/work
+imagesize==1.4.1
+importlib_metadata==7.1.0
 importlib_resources==6.5.2
 inflection==0.5.1
 iniconfig==2.0.0
-intervaltree @ file:///Users/ktietz/demo/mc3/conda-bld/intervaltree_1630511889664/work
+intervaltree==3.1.0
 invoke==2.2.0
-ipykernel @ file:///C:/b/abs_6c9ggygp01/croot/ipykernel_1737660720620/work
-ipython @ file:///C:/b/abs_8eyhzleyrk/croot/ipython_1734548134403/work
-ipython-genutils @ file:///tmp/build/80754af9/ipython_genutils_1606773439826/work
+ipykernel==6.29.4
+ipython==8.24.0
+ipython-genutils==0.2.0
 ipywidgets==8.1.5
 isoduration==20.11.0
-isort @ file:///C:/b/abs_bch7u4g7z2/croot/isort_1736368191060/work
+isort==5.13.2
 itsdangerous==2.2.0
-jaraco.classes @ file:///tmp/build/80754af9/jaraco.classes_1620983179379/work
+jaraco.classes==3.3.1
 jaraco.context==6.0.1
 jaraco.functools==4.1.0
-jedi @ file:///C:/b/abs_3a2kbnlclc/croot/jedi_1733987412687/work
-jellyfish @ file:///C:/b/abs_c5ua9cti7n/croot/jellyfish_1736367467867/work
-jieba==0.42.1
+jedi==0.19.1
+jellyfish==1.0.0
+#jieba==0.42.1
 Jinja2==3.1.5
-jinja2-time @ file:///opt/conda/conda-bld/jinja2-time_1649251842261/work
+jinja2-time==0.2.0
 joblib==1.4.2
 json5==0.10.0
 jsonpatch==1.33
 jsonpointer==3.0.0
-jsonschema @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/jsonschema-4.23.0-py3-none-any.whl#sha256=fbadb6f8b144a8f8cf9f0b89ba94501d143e50411a1278633f56a7acf7fd5566
+jsonschema==4.23.0
 jsonschema-specifications==2023.11.1
 jupyter-events==0.12.0
 jupyter-lsp==2.2.5
-jupyter_client @ file:///C:/b/abs_149bw133if/croot/jupyter_client_1737570986926/work
-jupyter_core @ file:///C:/b/abs_beftpbuevw/croot/jupyter_core_1718818307097/work
+jupyter_client==8.6.1
+jupyter_core==5.7.2
 jupyter_server==2.15.0
 jupyter_server_terminals==0.5.3
 jupyterlab==4.3.5
-jupyterlab-pygments @ file:///C:/b/abs_90gcngw1hg/croot/jupyterlab_pygments_1700168630077/work
+jupyterlab-pygments==0.3.0
 jupyterlab_server==2.27.3
 jupyterlab_widgets==3.0.13
 jupytext==1.16.7
 kaleido==0.2.1
-keyring @ file:///C:/b/abs_78uoj9sw00/croot/keyring_1709632550180/work
-kiwisolver @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/kiwisolver-1.4.8-cp311-cp311-win_amd64.whl#sha256=ed33ca2002a779a2e20eeb06aea7721b6e47f2d4b8a8ece979d8ba9e2a167e34
+keyring==25.2.0
+kiwisolver==1.4.8
 langchain==0.3.20
 langchain-community==0.3.19
 langchain-core==0.3.44
@@ -243,8 +251,6 @@ lazy_loader==0.4
 libopencv==0.0.1
 librosa==0.10.2.post1
 linkify-it-py==2.0.3
-# Editable install with no version control (llamafactory==0.9.2.dev0)
--e c:\users\baike\pycharmprojects\pythonproject\llama-factory-main\llama-factory-main
 llvmlite==0.44.0
 lxml==5.3.0
 Markdown==3.7
@@ -253,74 +259,73 @@ MarkupSafe==2.1.5
 marshmallow==3.26.0
 marshmallow-oneofschema==3.1.1
 matplotlib==3.10.0
-matplotlib-inline @ file:///C:/ci_311/matplotlib-inline_1676425798036/work
-mccabe @ file:///opt/conda/conda-bld/mccabe_1644221741721/work
+matplotlib-inline==0.1.6
+mccabe==0.7.0
 mdit-py-plugins==0.4.2
 mdurl==0.1.2
-meshio @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/meshio-5.3.5-py3-none-any.whl#sha256=0736c6e34ecc768f62f2cde5d8233a3529512a9399b25c68ea2ca0d5900cdc10
+meshio==5.3.5
 mistune==2.0.4
 mkl-service==2.4.0
-mkl_fft @ file:///C:/Users/dev-admin/mkl/mkl_fft_1730823082242/work
-mkl_random @ file:///C:/Users/dev-admin/mkl/mkl_random_1730822522280/work
-more-itertools @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/more_itertools-10.6.0-py3-none-any.whl#sha256=6eb054cb4b6db1473f6e15fcc676a08e4732548acd47c708f0e179c2c7c01e89
-mpmath @ file:///C:/b/abs_7833jrbiox/croot/mpmath_1690848321154/work
+mkl_fft==1.3.8
+mkl_random==1.2.4
+more-itertools==10.6.0
+mpmath==1.3.0
 msgpack==1.1.0
-multidict @ file:///C:/b/abs_19e3ubo2ew/croot/multidict_1730905504444/work
+multidict==6.0.5
 multiprocess==0.70.16
 munkres==1.1.4
-mypy-extensions @ file:///C:/b/abs_8f7xiidjya/croot/mypy_extensions_1695131051147/work
+mypy-extensions==1.0.0
 narwhals==1.29.1
 nbclient==0.10.2
 nbconvert==7.16.6
 nbformat==5.10.4
-ndindex @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/ndindex-1.9.2-cp311-cp311-win_amd64.whl#sha256=d23f07831d28bb3c04c234936b6038078cd7c0c4966d2e2e37738edad6435f9f
-nest-asyncio @ file:///C:/b/abs_65d6lblmoi/croot/nest-asyncio_1708532721305/work
-networkx @ file:///C:/b/abs_b054htfn9t/croot/networkx_1737043671910/work
+ndindex==1.9.2
+nest-asyncio==1.6.0
+networkx==3.3
 nh3==0.2.20
 nltk==3.9.1
 nodeenv==1.9.1
 notebook_shim==0.2.4
 numba==0.61.0
-numexpr @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/numexpr-2.10.2-cp311-cp311-win_amd64.whl#sha256=e2d0ae24b0728e4bc3f1d3f33310340d67321d36d6043f7ce26897f4f1042db0
-numpy @ file:///C:/b/abs_c1ywpu18ar/croot/numpy_and_numpy_base_1708638681471/work/dist/numpy-1.26.4-cp311-cp311-win_amd64.whl#sha256=5dfd3e04dc1c2826d3f404fdc7f93c097901f5da9b91f4f394f79d4e038ed81d
-numpydoc @ file:///C:/b/abs_bbspp5l8vu/croot/numpydoc_1718279185573/work
+numexpr==2.10.2
+numpy==1.26.4
+numpydoc==1.7.0
 opencv-python==4.7.0.68
-openpyxl @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/openpyxl-3.1.5-py2.py3-none-any.whl#sha256=5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2
+openpyxl==3.1.5
 orjson==3.10.15
-osmnx @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/osmnx-2.0.1-py3-none-any.whl#sha256=6532b28f4eaf0c7621f03f77873e64c2e4de5bf46aeafb4faa84413bc9f34f62
+osmnx==2.0.1
 outcome==1.3.0.post0
 overrides==7.7.0
 packaging==24.2
-pandas @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/pandas-2.2.3-cp311-cp311-win_amd64.whl#sha256=3fc6873a41186404dad67245896a6e440baacc92f5b716ccd1bc9ed2995ab2c5
-pandocfilters @ file:///opt/conda/conda-bld/pandocfilters_1643405455980/work
+pandas==2.2.3
+pandocfilters==1.5.1
 panel==1.4.4
 param==2.2.0
-paramiko @ file:///C:/b/abs_2dztfvk0zj/croot/paramiko_1732273410710/work
-parso @ file:///C:/b/abs_834b4mj92b/croot/parso_1733963322289/work
-pathspec @ file:///C:/ci_311/pathspec_1679427644142/work
+paramiko==3.4.0
+parso==0.8.4
+pathspec==0.12.1
 pdf2image==1.17.0
 peft==0.12.0
-pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
-pickleshare @ file:///tmp/build/80754af9/pickleshare_1606932040724/work
+pexpect==4.9.0
+pickleshare==0.7.5
 pillow==11.1.0
 Pint==0.24.4
 platformdirs==4.3.6
 plotly==6.0.0
-pluggy @ file:///C:/b/abs_dfec_m79vo/croot/pluggy_1733170145382/work
+pluggy==1.5.0
 plumbum==1.9.0
 ply==3.11
-pooch @ file:///C:/b/abs_7acoiuwpey/croot/pooch_1731007069545/work
+pooch==1.8.1
 portalocker==2.10.1
-poyo @ file:///tmp/build/80754af9/poyo_1617751526755/work
+poyo==0.5.0
 pre_commit==4.1.0
 prometheus_client==0.21.1
-prompt-toolkit @ file:///C:/b/abs_68uwr58ed1/croot/prompt-toolkit_1704404394082/work
+prompt-toolkit==3.0.43
 propcache==0.2.1
 proto-plus==1.25.0
-protobuf==3.20.3
 psutil==7.0.0
-ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
-pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
+ptyprocess==0.7.0
+pure-eval==0.2.2
 py-cpuinfo==9.0.0
 pyaedt==0.14.1
 pyansys==2024.2.5
@@ -329,73 +334,73 @@ pyansys-tools-versioning==0.5.0
 pyarrow==19.0.1
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
-pycodestyle @ file:///C:/b/abs_9bj6ihy3hn/croot/pycodestyle_1726150314067/work
+#pycodestyle==2.11.1
 pycparser==2.22
-pydantic @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/pydantic-2.10.6-py3-none-any.whl#sha256=427d664bf0b8a2b34ff5dd0f5a18df00591adcee7198fbd71981054cef37b584
+pydantic==2.10.6
 pydantic-extra-types==2.10.2
 pydantic-settings==2.7.1
 pydantic_core==2.27.2
 pydeck==0.9.1
-pydocstyle @ file:///C:/ci_311/pydocstyle_1678402028085/work
+pydocstyle==6.3.0
 pydub==0.25.1
-pyedb @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/pyedb-0.37.0-py3-none-any.whl#sha256=b0a5b4aeef8b69c4f538e34ac4266d194ed07de33854662fdde0b0f3bedd9c62
-pyflakes @ file:///C:/b/abs_b6t1aazq2e/croot/pyflakes_1708963020907/work
-PyGithub @ file:///C:/b/abs_9alojnzbid/croot/pygithub_1725976303706/work
+pyedb==0.37.0
+pyflakes==3.2.0
+PyGithub==2.3.0
 Pygments==2.19.1
 pygranta==2024.2.0
 pyiges==0.3.1
-PyJWT @ file:///C:/b/abs_02n5wes3j9/croot/pyjwt_1736178904450/work
-pylint @ file:///C:/b/abs_3bc_1nuzs5/croot/pylint_1736469714124/work
-pylint-venv @ file:///C:/b/abs_3f6p_17zia/croot/pylint-venv_1709837680309/work
+PyJWT==2.8.0
+pylint==3.1.0
+pylint-venv==3.0.3
 pyls-spyder==0.4.0
-PyNaCl @ file:///C:/b/abs_b9cyxk0xhf/croot/pynacl_1736542112237/work
+PyNaCl==1.5.0
 pyogrio==0.10.0
-pyOpenSSL @ file:///C:/b/abs_61vvbgrloc/croot/pyopenssl_1723651600236/work
+pyOpenSSL==24.1.0
 pyparsing==3.2.1
 pypdf==5.3.1
 pypiwin32==223
 pypng==0.20220715.0
 pyproj==3.7.1
 pyproject_hooks==1.2.0
-PyQt5_sip @ file:///C:/b/abs_d1i1jr9fgt/croot/pyqt-split_1736540551157/work/pyqt_sip
+PyQt5_sip==12.13.0
 PyQt6==6.7.1
-PyQt6_sip @ file:///C:/b/abs_28s7k4h_hl/croot/pyqt-split_1740498234166/work/pyqt_sip
+PyQt6_sip==13.6.0
 PyQtWebEngine==5.15.6
 Pyro5==5.15
-pyrsistent @ file:///C:/b/abs_0a54qmam41/croot/pyrsistent_1736540574984/work
-PySocks @ file:///C:/ci_311/pysocks_1676425991111/work
+pyrsistent==0.20.0
+PySocks==1.7.1
 pyspnego==0.11.2
 pytest==8.3.4
-python-dateutil @ file:///C:/b/abs_3au_koqnbs/croot/python-dateutil_1716495777160/work
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 python-json-logger==3.2.1
-python-lsp-black @ file:///C:/b/abs_5dhen_5vga/croot/python-lsp-black_1709232962589/work
-python-lsp-jsonrpc @ file:///croot/python-lsp-jsonrpc_1708962872556/work
-python-lsp-server @ file:///C:/b/abs_3ftuj4v07p/croot/python-lsp-server_1726696857292/work
+python-lsp-black==2.0.0
+python-lsp-jsonrpc==1.1.2
+python-lsp-server==1.9.0
 python-multipart==0.0.20
-python-slugify @ file:///tmp/build/80754af9/python-slugify_1620405669636/work
-pytoolconfig @ file:///C:/b/abs_f2j_xsvrpn/croot/pytoolconfig_1701728751207/work
+python-slugify==8.0.4
+pytoolconfig==1.3.0
 pytwin==0.7.0
 pytz==2025.1
-pyuca @ file:///C:/b/abs_c4xy4agr42/croot/pyuca_1726251471052/work
-pyvista @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/pyvista-0.44.2-py3-none-any.whl#sha256=8530d35f57cdaa33507ac9aec19e3292be0bc9026b28e4f12df7e8054438d028
+pyuca==1.2
+#pyvista==0.44.2
 pyviz_comms==3.0.4
 pywin32==308
-pywin32-ctypes @ file:///C:/b/abs_2cfx5l4nvi/croot/pywin32-ctypes_1709340246092/work
+pywin32-ctypes==0.2.2
 pywinpty==2.0.15
 PyYAML==6.0.2
-pyzmq @ file:///C:/b/abs_f3yte6j5yn/croot/pyzmq_1734711069724/work
-QDarkStyle @ file:///croot/qdarkstyle_1709231003551/work
+pyzmq==25.1.2
+QDarkStyle==3.2.3
 qrcode==8.0
-qstylizer @ file:///C:/ci_311/qstylizer_1678502012152/work/dist/qstylizer-0.2.2-py2.py3-none-any.whl
-QtAwesome @ file:///C:/b/abs_e1w2vmh9q7/croot/qtawesome_1726169367822/work
-qtconsole @ file:///C:/b/abs_d4j596cmtn/croot/qtconsole_1737590777428/work
-QtPy @ file:///C:/b/abs_derqu__3p8/croot/qtpy_1700144907661/work
+qstylizer==0.2.2
+QtAwesome==1.2.1
+qtconsole==5.5.1
+QtPy==2.4.1
 qutip==5.1.1
 readme_renderer==44.0
 referencing==0.36.2
-regex @ file:///C:/b/abs_d785r851h6/croot/regex_1736542205858/work
-requests @ file:///C:/b/abs_c3508vg8ez/croot/requests_1731000584867/work
+regex==2024.5.15
+requests==2.32.3
 requests-negotiate-sspi==0.5.2
 requests-toolbelt==1.0.0
 requests_ntlm==1.3.0
@@ -404,7 +409,7 @@ rfc3986==2.0.0
 rfc3986-validator==0.1.1
 rich==13.9.4
 rich-toolkit==0.13.2
-rope @ file:///C:/b/abs_a4uy0nuc8z/croot/rope_1708963217026/work
+rope==1.12.0
 rouge-chinese==1.0.3
 rpds-py==0.22.3
 rpyc==6.0.1
@@ -415,7 +420,7 @@ safehttpx==0.1.6
 safetensors==0.5.3
 schedule==1.2.2
 scholarly==1.7.11
-scikit-learn @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/scikit_learn-1.6.1-cp311-cp311-win_amd64.whl#sha256=fa909b1a36e000a03c382aade0bd2063fd5680ff8b8e501660c0f59f021a6415
+scikit-learn==1.6.1
 scikit-rf==1.5.0
 scipy==1.15.1
 scooby==0.10.0
@@ -431,67 +436,67 @@ serpent==1.41
 shapely==2.0.7
 shellingham==1.5.4
 shtab==1.7.1
-sip @ file:///C:/b/abs_5cto136kse/croot/sip_1738856220313/work
+sip==6.8.3
 six==1.17.0
 smmap==5.0.2
 sniffio==1.3.1
-snowballstemmer @ file:///tmp/build/80754af9/snowballstemmer_1637937080595/work
-sortedcontainers @ file:///tmp/build/80754af9/sortedcontainers_1623949099177/work
+snowballstemmer==2.2.0
+sortedcontainers==2.4.0
 soundfile==0.13.1
-soupsieve @ file:///C:/b/abs_bbsvy9t4pl/croot/soupsieve_1696347611357/work
+soupsieve==2.5
 soxr==0.5.0.post1
-Sphinx @ file:///C:/b/abs_67j2y1kkd0/croot/sphinx_1718275396111/work
+Sphinx==7.3.7
 sphinx-rtd-theme==3.0.2
-sphinxcontrib-applehelp @ file:///home/ktietz/src/ci/sphinxcontrib-applehelp_1611920841464/work
-sphinxcontrib-devhelp @ file:///home/ktietz/src/ci/sphinxcontrib-devhelp_1611920923094/work
-sphinxcontrib-htmlhelp @ file:///tmp/build/80754af9/sphinxcontrib-htmlhelp_1623945626792/work
+sphinxcontrib-applehelp==1.0.8
+sphinxcontrib-devhelp==1.0.6
+sphinxcontrib-htmlhelp==2.0.5
 sphinxcontrib-jquery==4.1
-sphinxcontrib-jsmath @ file:///home/ktietz/src/ci/sphinxcontrib-jsmath_1611920942228/work
-sphinxcontrib-qthelp @ file:///home/ktietz/src/ci/sphinxcontrib-qthelp_1611921055322/work
-sphinxcontrib-serializinghtml @ file:///C:/b/abs_91266tdnkr/croot/sphinxcontrib-serializinghtml_1718201501959/work
-spyder-kernels @ file:///C:/b/abs_dbkuaf_2o6/croot/spyder-kernels_1738683269711/work
+sphinxcontrib-jsmath==1.0.1
+sphinxcontrib-qthelp==1.0.7
+sphinxcontrib-serializinghtml==1.1.10
+#conda install spyder-kernels==2.5
 SQLAlchemy==2.0.39
 sqlparse==0.5.3
 sse-starlette==2.2.1
 sseclient-py==1.8.0
-sspilib @ file:///D:/bld/sspilib_1727961860252/work
-stack-data @ file:///opt/conda/conda-bld/stack_data_1646927590127/work
+sspilib==0.1.0
+stack-data==0.6.3
 starlette==0.45.3
 streamlit==1.43.1
 style==1.1.0
-superqt @ file:///C:/b/abs_d7_79svp1c/croot/superqt_1726836462345/work
+superqt==0.6.0
 sympy==1.13.1
-tabulate @ file:///C:/b/abs_21rf8iibnh/croot/tabulate_1701354830521/work
+tabulate==0.9.0
 tenacity==9.0.0
 tensorboard==2.19.0
 tensorboard-data-server==0.7.2
 termcolor==2.5.0
 terminado==0.18.1
-testpath @ file:///C:/ci_311/testpath_1676494887431/work
-text-unidecode @ file:///Users/ktietz/demo/mc3/conda-bld/text-unidecode_1629401354553/work
-textdistance @ file:///C:/b/abs_60f65m175u/croot/textdistance_1731571669774/work
+testpath==0.6.0
+text-unidecode==1.3
+textdistance==4.6.3
 threadpoolctl==3.5.0
-three-merge @ file:///tmp/build/80754af9/three-merge_1607553261110/work
+three-merge==0.1.1
 tiktoken==0.9.0
-tinycss2 @ file:///C:/ci_311/tinycss2_1676425376744/work
+tinycss2==1.2.1
 tk==0.1.0
 tokenizers==0.21.0
 toml==0.10.2
-tomli @ file:///C:/ci_311/tomli_1676422027483/work
+tomli==2.0.1
 tomli_w==1.2.0
-tomlkit @ file:///C:/b/abs_07yc6lwf0e/croot/tomlkit_1728650313581/work
+tomlkit==0.12.0
 torch==2.5.1
 torchaudio==2.5.1
 torchvision==0.20.1
-tornado @ file:///C:/b/abs_7cyu943ybx/croot/tornado_1733960510898/work
+tornado==6.4
 tqdm==4.67.1
-traitlets @ file:///C:/b/abs_bfsnoxl4pq/croot/traitlets_1718227069245/work
-trame @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/trame-3.8.0-py3-none-any.whl#sha256=e4c9e648938ec0759f6893ba7afd095afaf0c88b4b8202157717691e135e924f
-trame-client @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/trame_client-3.5.2-py3-none-any.whl#sha256=8a950482a437c8245b66bfeb00ac5d7b880b9023f32199e28f15d04f29205ee1
+traitlets==5.14.2
+trame==3.8.0
+trame-client==3.5.2
 trame-server==3.3.0
-trame-vtk @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/trame_vtk-2.8.15-py3-none-any.whl#sha256=abf7d23d267dd15b87db4b249302a0aea8572c260d205e264dba5836b3adc92b
+trame-vtk==2.8.15
 trame-vuetify==2.8.1
-transformers @ file:///C:/Users/baike/Downloads/transformers-4.49.0-py3-none-any.whl#sha256=6b4fded1c5fee04d384b1014495b4235a2b53c87503d7d592423c06128cbbe03
+transformers==4.49.0
 trio==0.29.0
 trio-websocket==0.12.2
 trl==0.9.6
@@ -504,38 +509,38 @@ tzdata==2025.1
 tzlocal==5.3
 uc-micro-py==1.0.3
 ujson==5.10.0
-unicodedata2 @ file:///C:/b/abs_dfnftvxi4k/croot/unicodedata2_1736543771112/work
-Unidecode @ file:///C:/b/abs_4cczv71djp/croot/unidecode_1724790062151/work
-unsloth @ file:///C:/Users/baike/PycharmProjects/pythonProject/unsloth
+unicodedata2==15.1.0
+Unidecode==1.3.8
+unsloth>=2024.8
 update==0.0.1
 uri-template==1.3.0
 uritemplate==4.1.1
-urllib3 @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/urllib3-2.3.0-py3-none-any.whl#sha256=1cee9ad369867bfdbbb48b7dd50374c0967a0bb7710050facf0dd6911440e3df
+#urllib3==2.3.0
 usd-core==25.2.post1
 uvicorn==0.34.0
 virtualenv==20.29.2
 vtk==9.3.1
 wakepy==0.10.1
-watchdog @ file:///C:/b/abs_b3l_3s276z/croot/watchdog_1717166538403/work
+watchdog==4.0.0
 watchfiles==1.0.4
-wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
+wcwidth==0.2.13
 webcolors==24.11.1
 webencodings==0.5.1
 websocket-client==1.8.0
-websockets @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/websockets-14.2-cp311-cp311-win_amd64.whl#sha256=862e9967b46c07d4dcd2532e9e8e3c2825e004ffbf91a5ef9dde519ee2effb0b
+websockets==14.2
 Werkzeug==3.1.3
-whatthepatch @ file:///C:/ci_311/whatthepatch_1678402578113/work
+whatthepatch==1.0.6
 widgetsnbextension==4.0.13
-win-inet-pton @ file:///C:/ci_311/win_inet_pton_1676425458225/work
+win-inet-pton==1.1.0
 WMI==1.5.1
-wrapt @ file:///D:/bld/wrapt_1736869488076/work
+wrapt==1.16.0
 wslink==2.2.2
 wsproto==1.2.0
 XlsxWriter==3.2.2
 xmlschema==2.5.1
 xxhash==3.5.0
 xyzservices==2025.1.0
-yapf @ file:///C:/b/abs_8aidayep18/croot/yapf_1708964372649/work
-yarl @ file:///C:/Users/baike/PycharmProjects/PyAEDT-v0.14.1-all-wheelhouse-windows-latest-3.11/yarl-1.18.3-cp311-cp311-win_amd64.whl#sha256=b9d60031cf568c627d028239693fd718025719c02c9f55df0a53e587aab951b5
-zipp @ file:///C:/b/abs_2fcpcg89my/croot/zipp_1732630746332/work
+yapf==0.40.2
+yarl==1.18.3
+zipp==3.18.2
 zstandard==0.23.0
