@@ -7,6 +7,7 @@
 # Clean cash use:  pip cache purge 
 # Core Dependencies
 
+pip install pyaedt
 about-time==4.2.1
 absl-py==2.1.0
 accelerate==0.30.0          # 截至 2024.10 的最新稳定版
