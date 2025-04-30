@@ -5,7 +5,7 @@ All the code utilized in this project has been visualized using Code2flow（a Py
 
 pip install pyaedt==0.14.0
 
-https://github-stats.ubrong.com/api?username=baikediguo&show_icons=true&theme=tokyonight
+
 
 >📋  A template README.md for code accompanying a Machine Learning paper
 
