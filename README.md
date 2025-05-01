@@ -1,9 +1,11 @@
 
-
-Step 1:  Generic LLM models can be downloaded from the open-source platform at [Hugging Face Models](https://huggingface.co/models). Taking the QwQ-32B LLM model as an example, you can directly access the following link：https://huggingface.co/Qwen/QwQ-32B/tree/main.
+# Step 1. Model selection:
+Generic LLM models can be downloaded from the open-source platform at [Hugging Face Models](https://huggingface.co/models). Taking the QwQ-32B LLM model as an example, you can directly access the following link：https://huggingface.co/Qwen/QwQ-32B/tree/main.
 If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.
 
-
+# Step 2. Data download:
+ The data can be downloaded from the official website at GitHub - ansys/pyaedt: AEDT Python Client Package. Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.
+ 
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
 All the code utilized in this project has been visualized using Code2flow（a Python tool）, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
