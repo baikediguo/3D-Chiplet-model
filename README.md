@@ -1,6 +1,7 @@
 
 
-Step 1:  Generic LLM models can be downloaded from the open-source platform at [Hugging Face Models](https://huggingface.co/models). If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.
+Step 1:  Generic LLM models can be downloaded from the open-source platform at [Hugging Face Models](https://huggingface.co/models). Taking the QwQ-32B LLM model as an example, you can directly access the following link：https://huggingface.co/Qwen/QwQ-32B/tree/main.
+If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.
 
 
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
