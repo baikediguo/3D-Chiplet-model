@@ -4,8 +4,11 @@ Generic LLM models can be downloaded from the open-source platform at [Hugging F
 If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.
 
 # Step 2. Data download:
- The data can be downloaded from the official website at GitHub - ansys/pyaedt: AEDT Python Client Package. Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.
- 
+ The data can be downloaded from the official website at GitHub - [ansys/pyaedt: AEDT Python Client Packag](https://github.com/ansys/pyaedt/tree/main). Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.
+
+# Step 3. Data pre-processing:
+To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software.
+
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
 All the code utilized in this project has been visualized using Code2flow（a Python tool）, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
