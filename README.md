@@ -7,7 +7,8 @@ If you're in Mainland China and find Hugging Face downloads slow, please refer t
  The data can be downloaded from the official website at GitHub - [ansys/pyaedt: AEDT Python Client Packag](https://github.com/ansys/pyaedt/tree/main). Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.
 
 # Step 3. Data pre-processing:
-To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software.
+To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software. 
+For detailed code, refer to [Data statistics](https://github.com/baikediguo/3D-Chiplet-model/blob/main/Data%20%20statistics).
 
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
