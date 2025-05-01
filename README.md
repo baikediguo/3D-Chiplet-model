@@ -1,10 +1,10 @@
 
 # Step 1. Model selection:
 Generic LLM models can be downloaded from the open-source platform at [Hugging Face Models](https://huggingface.co/models). Taking the QwQ-32B LLM model as an example, you can directly access the following link：https://huggingface.co/Qwen/QwQ-32B/tree/main.
-If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.
+If you're in Mainland China and find Hugging Face downloads slow, please refer to the ["downloaded model by Python" file](https://github.com/baikediguo/3D-Chiplet-model/blob/main/downloaded%20model%20by%20Python). Note that you need to first install the required module via `pip install huggingface_hub`.![Image](https://github.com/user-attachments/assets/337095fd-9b12-4806-abfe-fc3b29f5657e)
 
 # Step 2. Data download:
- The data can be downloaded from the official website at GitHub - [ansys/pyaedt: AEDT Python Client Packag](https://github.com/ansys/pyaedt/tree/main). Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.
+ The data can be downloaded from the official website at GitHub - [ansys/pyaedt: AEDT Python Client Packag](https://github.com/ansys/pyaedt/tree/main). Note that this data is updated regularly, so ensure your Python environment settings stay consistent with it.![Image](https://github.com/user-attachments/assets/fa267869-9a09-432c-99b4-c8d6588b808e)
 
 # Step 3. Data pre-processing:
 To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software. 
