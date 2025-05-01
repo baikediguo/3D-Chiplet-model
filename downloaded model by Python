@@ -1,3 +1,4 @@
+# 如果在大陆，使用hugging-face 下载较慢，可使用此代码自动下载大模型，但要安装pip install huggingface_hub模块
 import os
 from huggingface_hub import snapshot_download
 
