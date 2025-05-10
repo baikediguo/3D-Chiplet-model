@@ -29,7 +29,7 @@ class CodeGeneratorGUI:
         self.model = model
         self.tokenizer = tokenizer
         self.current_prompt = ""
-        self.save_path = r"C:\Users\baike\AppData\Local\Temp\temp\generated_code.py"
+        self.save_path = r"PycharmProjects\output\GUIoutput.py"  # output results
         self.full_code = ""
         self.total_tokens = 0
         self.max_total_tokens = 2048  # 设置最大总tokens数
@@ -120,8 +120,8 @@ class CodeGeneratorGUI:
 
 # 主函数
 def main():
-    # 模型路径
-    model_path = r"C:\Users\baike\AppData\Local\Temp\temp"
+    # Specify the path for your trained model
+    model_path = r"D:\PycharmProjects\model\codegen-350M-multi\codegen350训练模型结果"
 
     # 加载模型
     model = AutoModelForCausalLM.from_pretrained(model_path)
@@ -134,4 +134,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
