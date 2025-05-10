@@ -16,9 +16,9 @@ We've trained data using 6 generic models. You can find the source code in the r
 
 
 # Step 5. Model Verification:
-We employed two methods for model validation. The first method involves directly writing text in Python to generate the necessary code for invoking PyAEDT. For detailed code,refer to [verification model method-1](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-1) ![Image](https://github.com/user-attachments/assets/eca3ff1d-2153-4f3b-a28b-35101cbdc8da)
+We employed two methods for model validation. The first method involves directly writing text in Python to generate python code for invoking PyAEDT. For detailed code,refer to [verification model method-1](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-1) ![Image](https://github.com/user-attachments/assets/eca3ff1d-2153-4f3b-a28b-35101cbdc8da)
 
-The second method utilizes a graphical user interface (GUI) to input files, thereby generating the required code. [verification model method-2](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-2) ![Image](https://github.com/user-attachments/assets/a78bfcba-e210-487c-90d8-c684b28bb85c)
+The second method utilizes a graphical user interface (GUI) to input files, thereby generating the python code by [verification model method-2](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-2) ![Image](https://github.com/user-attachments/assets/a78bfcba-e210-487c-90d8-c684b28bb85c)
 
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
