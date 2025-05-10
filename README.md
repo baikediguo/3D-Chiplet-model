@@ -10,6 +10,13 @@ If you're in Mainland China and find Hugging Face downloads slow, please refer t
 To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software. 
 For detailed code, refer to [Data statistics](https://github.com/baikediguo/3D-Chiplet-model/blob/main/Data%20%20statistics). ![Image](https://github.com/user-attachments/assets/2294b1ef-dd30-44ae-a020-28c9a3f880f4)
 
+# Step 4. Model traning:
+
+# Step 5. Model Verification:
+We employed two methods for model validation. The first method involves directly writing text in Python to generate the necessary code for invoking PyAEDT. For detailed code,refer to [verification model method-1]
+![Image](https://github.com/user-attachments/assets/eca3ff1d-2153-4f3b-a28b-35101cbdc8da)
+The second method utilizes a graphical user interface (GUI) to input files, thereby generating the required code.
+
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
 All the code utilized in this project has been visualized using Code2flow（a Python tool）, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
