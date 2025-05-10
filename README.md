@@ -10,7 +10,10 @@ If you're in Mainland China and find Hugging Face downloads slow, please refer t
 To analyze the data files of each new release, we developed a data statistical code. This code is designed to load and preprocess the code data, remove unnecessary elements such as comments and extra spaces, and collect information including the number of records, file paths, creation and modification times, code line counts, and encoding formats. The statistical code helps us systematically evaluate and understand the changes and features of each new version of the software. 
 For detailed code, refer to [Data statistics](https://github.com/baikediguo/3D-Chiplet-model/blob/main/Data%20%20statistics). ![Image](https://github.com/user-attachments/assets/2294b1ef-dd30-44ae-a020-28c9a3f880f4)
 
-# Step 4. Model traning:
+# Step 4. Model training:
+We've trained data using 6 generic models. You can find the source code in the repository by looking for files starting with "model training for [Name]". Due to the long training time, we only show the training results in pictures instead of videos. For detailed code, refer to
+![1741006152378](https://github.com/user-attachments/assets/79280bc8-c624-41fb-b336-6ceb93b8b08d)![1741006196827](https://github.com/user-attachments/assets/7ff905ef-c6db-41d0-8a4a-0b0cf0834711)
+
 
 # Step 5. Model Verification:
 We employed two methods for model validation. The first method involves directly writing text in Python to generate the necessary code for invoking PyAEDT. For detailed code,refer to [verification model method-1](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-1) ![Image](https://github.com/user-attachments/assets/eca3ff1d-2153-4f3b-a28b-35101cbdc8da)
