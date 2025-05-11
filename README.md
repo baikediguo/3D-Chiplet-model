@@ -15,6 +15,7 @@ For detailed code, refer to [Data statistics](https://github.com/baikediguo/3D-C
 
 # Step 4. Model training:
 We've trained data using 6 generic models. You can find the source code in the repository by looking for files starting with "model training for [Name]". Due to the long training time, we only show the training results in pictures instead of videos. For detailed code, refer to
+
 ![1741006152378](https://github.com/user-attachments/assets/79280bc8-c624-41fb-b336-6ceb93b8b08d)![1741006196827](https://github.com/user-attachments/assets/7ff905ef-c6db-41d0-8a4a-0b0cf0834711)
 
 
