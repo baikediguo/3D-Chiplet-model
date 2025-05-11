@@ -20,6 +20,8 @@ We employed two methods for model validation. The first method involves directly
 
 The second method utilizes a graphical user interface (GUI) to input files, thereby generating the python code by [verification model method-2](https://github.com/baikediguo/3D-Chiplet-model/blob/main/verification%20model%20method-2) ![Image](https://github.com/user-attachments/assets/a78bfcba-e210-487c-90d8-c684b28bb85c)
 
+# Step 6. 3D Chiplet Modeling and Thermal Analysis:
+ Users can iterate through numerous parameters (geometric, materials, meshing, boundary conditions, etc.) to explore hotspots, reducing design time consumption and enhancing efficiency.
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
 All the code utilized in this project has been visualized using Code2flow（a Python tool）, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
