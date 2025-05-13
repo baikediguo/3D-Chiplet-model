@@ -32,7 +32,8 @@ The second method utilizes a graphical user interface (GUI) to input files, ther
  Users can iterate through numerous parameters (geometric, materials, meshing, boundary conditions, etc.) to explore hotspots, reducing design time consumption and enhancing efficiency.
 ![Image](https://github.com/user-attachments/assets/ad4e8623-9792-4d3c-8612-7138c31ac626)
 
-All the code utilized in this project has been visualized using Code2flow（a Python tool）, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
+In order to better understand the execution flow and structure of our complex code, we use Code2Flow（a Python tool, a tool that automatically generates flowcharts and call graphs from Python code.
+All the code utilized in this project has been visualized using Code2flow, making it easier for others to grasp the execution flow and dependencies within the codebase. Code2flow automatically generates flowcharts and call graphs to provide a clear visual representation of the code structure.
 
 
 pip install pyaedt==0.14.0
